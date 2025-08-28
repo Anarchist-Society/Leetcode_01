@@ -1,7 +1,6 @@
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
 public class Solution {
     public static void main(String[] args) {
         int[] nums = {3,2,4};
@@ -50,16 +49,17 @@ public class Solution {
         return new int[] {};
     }
 
-    // Algoritmo 3: One-pass HashTable
+    // Algoritmo 3: One-pass Hash Table
     // Lo mismo que el Algoritmo 2 pero con un solo bucle
     public static int[] twoSum_03(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
+        // En el primer bucle, mientras estamos iterando, vamos comprobando si ya existe el segundo sumando, si existe lo hemos encontrado, sino lo guardamos en el HashMap
         for (int i = 0; i < nums.length; i++) {
-            map.put(nums[i], i);
-            int objetivo = target - nums[i];
-            if (map.containsKey(objetivo) && map.get(objetivo) != i) {
-                return new int[] {nums[i], map.get(objetivo)};
+            int objetivo = target - nums[i]; // Almacenamos en una variable el segundo sumando que buscamos
+            if (map.containsKey(objetivo)) {
+                return new int[] {map.get(objetivo), i};
             }
+            map.put(nums[i], i);
         }
         return new int[] {};
     }
