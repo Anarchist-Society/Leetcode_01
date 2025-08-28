@@ -1,11 +1,13 @@
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Solution {
     public static void main(String[] args) {
         int[] nums = {3,2,4};
         System.out.println(Arrays.toString(twoSum_01(nums, 6)));
         System.out.println(Arrays.toString(twoSum_02(nums, 6)));
+        System.out.println(Arrays.toString(twoSum_03(nums, 6)));
     }
 
     // Algoritmo 1: Fuerza bruta
@@ -23,20 +25,42 @@ public class Solution {
         return new int[] {};
     }
 
-    // Algoritmo 2: Hash Table
+    // Algoritmo 2: Two-pass Hash Table
+    // Usamos un HashMap para poder ahorrar velocidad por memoria
     public static int[] twoSum_02(int[] nums, int target) {
-        HashMap<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>();
+        // En el primer bucle lo que hacemos es guardar los valores y los indices en el HashMap
+        // Key: nums[i] i -> índice del array
+        // Value: i -> índice del array
         for (int i = 0; i < nums.length; i++) {
             map.put(nums[i], i);
         }
 
+        // En el segundo bucle comprobamos si está en el HashMap el segundo sumando (target - nums[i]) de cada elemento del array nums
         for (int i = 0; i < nums.length; i++) {
             int objetivo = target - nums[i];
+            // Comprobamos si está el segundo sumando (map.containsKey(objetivo)) y si ese sumando no es el mismo que el primer sumando (map.get(objetivo))
+            // Si cumple las condiciones devolvemos un nuevo array con el primer sumando y el segundo sumando
             if (map.containsKey(objetivo) && map.get(objetivo) != i) {
                 return new int[] {i, map.get(objetivo)};
             }
         }
 
+        // Si no se encuentra un par válido devuelve una matriz vacía en lugar de NULL.
+        return new int[] {};
+    }
+
+    // Algoritmo 3: One-pass HashTable
+    // Lo mismo que el Algoritmo 2 pero con un solo bucle
+    public static int[] twoSum_03(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], i);
+            int objetivo = target - nums[i];
+            if (map.containsKey(objetivo) && map.get(objetivo) != i) {
+                return new int[] {nums[i], map.get(objetivo)};
+            }
+        }
         return new int[] {};
     }
 }
